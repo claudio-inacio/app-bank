@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 
 
-const INITIAL_BALANCE = 1500.00;
+const INITIAL_BALANCE = 2450.75;
 
 export const useSessionStore = create<SessionState>()(
     persist(
@@ -30,7 +30,7 @@ export const useSessionStore = create<SessionState>()(
                 balance: banlanceValue,
             }),
             decrementBalance: (value) => set((state) => ({
-                balance: state.balance - value
+                 balance: Math.max(0, state.balance - value),
             })),
         }),
         {
