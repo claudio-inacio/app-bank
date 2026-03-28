@@ -1,0 +1,14 @@
+import { useSessionStore } from "./session-store";
+
+
+export function useUser() {
+    return useSessionStore((state) => ({
+        user: state.user,
+        token: state.token,
+        isAuthenticated: state.isAuthenticated,
+    }))
+}
+
+export function useUserBalance() {
+    return useSessionStore((state) => state.balance);
+}

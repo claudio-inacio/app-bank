@@ -1,5 +1,6 @@
 import { Navigate } from "react-router";
-import { useSessionstore } from "../store/session-store";
+import { useSessionStore } from "../store/session-store";
+
 
 
 
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export function ProtectedRoute({ children }: Props) {
-    const { isAuthenticated } = useSessionstore();
+    const { isAuthenticated } = useSessionStore();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" />
