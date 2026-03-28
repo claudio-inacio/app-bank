@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { create } from "zustand";
 
-
-export const useSessionstore = () => {
-
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-
-    return isAuthenticated
+interface SessionState {
+    isAuthenticated: boolean;
+    login: () => void;
+    logout: () => void;
 }
+
+export const useSessionstore = create<SessionState>()((set) => ({
+    isAuthenticated: true,
+
+    login: () => set({ isAuthenticated: true }),
+    logout: () => set({ isAuthenticated: false }),
+}))
