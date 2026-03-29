@@ -1,5 +1,5 @@
 
-import { useSessionStore } from '@/app/store/session-store';
+import { useSessionStore } from '@/app/store/use-session-store';
 import LoginForm from '../components/LoginForm';
 import { Button } from '@/shared/components/ui/button';
 import { useNavigate } from 'react-router';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 
 const LoginPage = () => {
   const navigate = useNavigate()
-  const { isAuthenticated, login, logout } = useSessionStore();
+  const { isAuthenticated, login, logout, setBalance } = useSessionStore();
   const user = useSessionStore((state) => state.user);
 
 

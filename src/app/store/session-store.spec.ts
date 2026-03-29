@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { useSessionStore } from "./session-store";
+import { useSessionStore } from "./use-session-store";
 
 describe("session-store", () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe("session-store", () => {
     localStorage.clear();
   });
 
-  it("deve autenticar o usuário com sucesso", () => {
+  it("autenticar o usuário com sucesso", () => {
     useSessionStore.getState().login({
       user: {
         id: "1",
@@ -31,7 +31,7 @@ describe("session-store", () => {
     expect(state.balance).toBe(3000);
   });
 
-  it("deve limpar a sessão no logout", () => {
+  it("limpar a sessão no logout", () => {
     useSessionStore.getState().login({
       user: {
         id: "1",
@@ -52,13 +52,15 @@ describe("session-store", () => {
     expect(state.balance).toBe(0);
   });
 
-  it("deve atualizar o saldo manualmente", () => {
+  it("atualizar o saldo manualmente", () => {
     useSessionStore.getState().setBalance(1500);
 
     expect(useSessionStore.getState().balance).toBe(1500);
   });
 
-  it("deve diminuir o saldo sem permitir valor negativo", () => {
+  // futuramente podemos criar um teste para verificar se o valor da transferencia é maior que o saldo disponivel
+  // e exibir uma alerta de saldo insuficiente, oferecendo a opção de utilizar o cheque espeical ou outro serviço qualquer
+  it("diminui o saldo sem permitir valor negativo", () => {
     useSessionStore.getState().setBalance(100);
     useSessionStore.getState().decrementBalance(150);
 

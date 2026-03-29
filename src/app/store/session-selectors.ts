@@ -1,4 +1,4 @@
-import { useSessionStore } from "./session-store";
+import { useSessionStore } from "./use-session-store";
 
 
 export function useUser() {

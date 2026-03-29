@@ -13,6 +13,7 @@ export const useSessionStore = create<SessionState>()(
             token: null,
             isAuthenticated: false,
             balance: INITIAL_BALANCE,
+            isHydrated: false,
 
             login: ({ user, token, balance = INITIAL_BALANCE }) => set({
                 user,
@@ -32,6 +33,10 @@ export const useSessionStore = create<SessionState>()(
             decrementBalance: (value) => set((state) => ({
                 balance: Math.max(0, state.balance - value),
             })),
+
+            setIsHydrated: (value) => set({
+                isHydrated: value,
+            }),
         }),
         {
             name: "bank-app-localStorage",
@@ -42,6 +47,11 @@ export const useSessionStore = create<SessionState>()(
                 isAuthenticated: state.isAuthenticated,
                 balance: state.balance,
             }),
+            onRehydrateStorage: () => (state) => {
+                if (state) {
+                    state.setIsHydrated(true);
+                }
+            },
         }
     )
 );
