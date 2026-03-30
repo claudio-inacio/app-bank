@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { login } from "../api/login";
 import { useSessionStore } from "@/app/store/use-session-store";
+import { toast } from "sonner";
 
 
 export function useLogin() {
@@ -19,5 +20,10 @@ export function useLogin() {
 
             navigate("/", { replace: true });
         },
+        onError: () => {
+            toast.error("Usuário ou senha inválidos", {
+                position: "top-center"
+            })
+        }
     });
 }

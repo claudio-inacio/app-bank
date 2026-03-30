@@ -1,48 +1,28 @@
-
-import { useSessionStore } from '@/app/store/use-session-store';
-import LoginForm from '../components/LoginForm';
-import { Button } from '@/shared/components/ui/button';
-import { useNavigate } from 'react-router';
+import { AuthShell } from '../components/auth-shell';
+import { LoginCard } from '../components/login-card';
+import { LoginForm } from '../components/Login-form';
 import { useLogin } from '../hooks/useLogin';
 
 
 const LoginPage = () => {
-  const navigate = useNavigate()
-  const { isAuthenticated, login } = useSessionStore();
-  const user = useSessionStore((state) => state.user);
-  const { mutateAsync: loginMutation, isPending, isSuccess, isError } = useLogin();
+  const {
+    mutateAsync: loginMutation,
+    isPending,
+    isError,
+    isSuccess,
+  } = useLogin();
+  const handleLogin = async (values: { document: string; password: string }) => {
+    await loginMutation(values);
+  };
 
 
-  const handleTestSetUser = () => {
-    login({ user: { id: '22', name: 'Claudio Inácio', document: '234.120.130-05' }, token: '123123', balance: 1000.00 })
-  }
-  const handleLogin = async () => {
-    const response = await loginMutation({ document: '234.120.130-05', password: '123123' });
-    console.log({ response })
-  }
-
-  console.log({isPending})
   return (
-    <div>
-      <h1>Login logado ? {isAuthenticated ? 'SIM' : 'NÃO'}</h1>
-      <LoginForm />
-      <Button onClick={() => {
+    <AuthShell>
+      <LoginCard>
+        <LoginForm isError={isError} isSuccess={isSuccess} isLoading={isPending} handleFunction={handleLogin} />
+      </LoginCard>
+    </AuthShell>
 
-        // navigate('/dashboard')
-        // if (!isAuthenticated) {
-        //   handleTestSetUser()
-        // } else {
-        //   console.log('aqui')
-        //   logout();
-        // }
-        handleLogin();
-      }
-      }
-      >
-        DIRECIONAR
-      </Button>
-    </div>
   )
 }
-
 export default LoginPage;

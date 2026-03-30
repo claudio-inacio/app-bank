@@ -2,6 +2,7 @@ import { mockAuthResponse, mockCredential } from "./data/auth";
 import { delay, http, HttpResponse } from "msw";
 import { addTransaction, getTransactionsDb } from "./data/store";
 import { getApiBaseUrl } from "../service";
+import type { ApiErrorResponse } from "../test/reponse-error-api";
 
 
 // IMPORTANTE: o uso do msw permite criar os handlers que vão simular as nossas requisições da api, durante o uso da aplicação.
@@ -17,7 +18,7 @@ export const handlers = [
             return HttpResponse.json(mockAuthResponse, { status: 200 });
         }
 
-        return HttpResponse.json({ message: "Usuário ou senha Invalodos" }, { status: 401 });
+        return HttpResponse.json<ApiErrorResponse>({ message: "Usuário ou senha Inválidos" }, { status: 401 });
     }),
 
     http.get(`${getApiBaseUrl()}/transactions`, async () => {

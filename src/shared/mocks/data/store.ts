@@ -10,7 +10,7 @@ export function getTransactionsDb(){
 }
 
 export function addTransaction(transaction: MockTransaction) {
-    transactionsDb.push(transaction);
+    transactionsDb.unshift(transaction);
 }
 
 export function clearTransactions() {
