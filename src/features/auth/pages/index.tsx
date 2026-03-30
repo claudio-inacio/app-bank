@@ -1,4 +1,3 @@
-import { AuthShell } from '../components/auth-shell';
 import { LoginCard } from '../components/login-card';
 import { LoginForm } from '../components/Login-form';
 import { useLogin } from '../hooks/useLogin';
@@ -11,17 +10,19 @@ const LoginPage = () => {
     isError,
     isSuccess,
   } = useLogin();
+
+
   const handleLogin = async (values: { document: string; password: string }) => {
     await loginMutation(values);
   };
 
 
   return (
-    <AuthShell>
+    <div className="container relative mx-auto flex min-h-screen items-center justify-center px-4 py-10">
       <LoginCard>
         <LoginForm isError={isError} isSuccess={isSuccess} isLoading={isPending} handleFunction={handleLogin} />
       </LoginCard>
-    </AuthShell>
+    </div>
 
   )
 }

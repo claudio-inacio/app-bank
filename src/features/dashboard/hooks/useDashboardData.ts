@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react';
+import { getTransactions } from "@/features/transactions/api/get-transactions";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-interface DashboardData {
-  balance: number;
+export function useDashboardData() {
+
+    return useMutation({
+        mutationFn: getTransactions,
+        onSuccess: (data) => {
+            console.log("Dashboard data:", data);
+        },
+        onError: () => {
+            toast.error("Não foi possível carregar os dados do dashboard", {
+                position: "top-center"
+            })
+        }
+    })
 }
-
-export const useDashboardData = () => {
-  const [data, setData] = useState<DashboardData | null>(null);
-
-  useEffect(() => {
-    setData({ balance: 1000 });
-  }, []);
-
-  return { data };
-};

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { App } from "./App";
 import "./index.css";
 import { Toaster } from "@/shared/components/ui/sonner.tsx";
+import { TooltipProvider } from "@/shared/components/ui/tooltip";
 
 
 
@@ -19,7 +20,9 @@ async function enableMocking() {
 enableMocking().then(() => {
     ReactDOM.createRoot(document.getElementById("root")!).render(
         <React.StrictMode>
-            <App />
+            <TooltipProvider>
+                <App />
+            </TooltipProvider>
             <Toaster />
         </React.StrictMode>
     );

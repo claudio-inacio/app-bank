@@ -1,7 +1,5 @@
 const StringMasks = {
 
-
-
     formataCPF(cpf: string | null | undefined): string {
         if (!cpf) return '';
 

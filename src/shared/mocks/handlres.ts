@@ -22,6 +22,7 @@ export const handlers = [
     }),
 
     http.get(`${getApiBaseUrl()}/transactions`, async () => {
+        await delay(5000);
         return HttpResponse.json(getTransactionsDb(), { status: 200 });
     }),
 
