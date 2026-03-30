@@ -11,6 +11,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        success: "bg-green-500 text-white hover:bg-green-600 aria-expanded:bg-green-600 aria-expanded:text-white",
+        error: "bg-red-500 text-white hover:bg-red-600 aria-expanded:bg-red-600 aria-expanded:text-white",
+        alert: "bg-orange-500 text-white hover:bg-orange-600 aria-expanded:bg-orange-600 aria-expanded:text-white",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:

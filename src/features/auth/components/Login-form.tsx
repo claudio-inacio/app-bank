@@ -5,7 +5,8 @@ import { Controller, useForm } from "react-hook-form"
 import { Input } from "@/shared/components/ui/input"
 import { loginSchema, type LoginFormValues } from "../schemas/login.schema"
 import { LoginSubmitButton } from "./login-submit-button"
-import StringMasks from "@/shared/utils/stringMasks"
+import StringMasks from "@/shared/utils/StringMasks"
+
 
 
 type LoginFormProps = {

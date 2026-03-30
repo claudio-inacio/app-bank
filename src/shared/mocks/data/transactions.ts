@@ -18,6 +18,13 @@ export const balanceMock: Balance = {
     amount: 12850.9,
 }
 
+export const mockTransactionResponse = {
+    message: "Transferência criada com sucesso",
+    transaction: {
+        id: "1",
+    }
+}
+
 
 export const mockTransactions: MockTransaction[] = [
     {
@@ -25,7 +32,7 @@ export const mockTransactions: MockTransaction[] = [
         type: "expense",
         description: "Compra de mercadorias",
         amount: 150.00,
-        createdAt: "2025-10-01",        
+        createdAt: "2025-10-01",
         recipientDocument: "234.120.130-05"
     },
     {

@@ -1,14 +1,16 @@
 import { cva } from "class-variance-authority"
-import {  Wallet } from "lucide-react"
+
 
 import {
     Card,
-    
+
     CardHeader,
     CardTitle,
 } from "@/shared/components/ui/card"
 import { cn } from "@/shared/lib/utils"
 import { currencyToBRL } from "@/shared/utils"
+import { Button } from "@/shared/components/ui/button"
+import { Wallet } from "lucide-react"
 
 
 
@@ -34,27 +36,30 @@ type BalanceCardProps = {
     income?: number
     expense?: number
     className?: string
+    handleControlModalTransfer?: () => void
+
 }
 
 export function BalanceCard({
     amount,
     // income = 10800,
     // expense = 2450.65,
+    handleControlModalTransfer,
     className,
 }: BalanceCardProps) {
     return (
         <Card className={cn(balanceCardVariants(), className)}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <div>
-                    <p className="text-sm text-zinc-300">Saldo disponível</p>
+                    <p className="text-sm text-zinc-300 flex items-center gap-2">
+                        Saldo disponível {<Wallet className="h-4 w-4" />}
+                    </p>
                     <CardTitle className="mt-1 text-3xl font-bold">
                         {currencyToBRL(amount)}
                     </CardTitle>
                 </div>
+                <Button onClick={handleControlModalTransfer} className="cursor-pointer py-6 rounded-lg" variant="success">Nova Transferencia</Button>
 
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <Wallet className="h-6 w-6" />
-                </div>
             </CardHeader>
 
             {/* <CardContent className="grid gap-3 pt-2 md:grid-cols-2">
