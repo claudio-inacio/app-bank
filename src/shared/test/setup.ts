@@ -1,4 +1,7 @@
 import "@testing-library/jest-dom";
+import { afterAll, afterEach, beforeAll } from "vitest";
+import { server } from "../mocks/server";
+import { resetTransactions } from "../mocks/data/store";
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -20,3 +23,14 @@ const localStorageMock = (() => {
 Object.defineProperty(globalThis, "localStorage", {
   value: localStorageMock,
 });
+
+//Inicializar o msw para os testes
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+
+afterEach(() => {
+  server.resetHandlers();
+  resetTransactions();
+  localStorage.clear();
+});
+
+afterAll(() => server.close());

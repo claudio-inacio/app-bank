@@ -17,7 +17,7 @@ describe("session-store", () => {
       user: {
         id: "1",
         name: "Claudio",
-        document: "094.198.819-89",
+        document: "234.120.130-05",
       },
       token: "mock-token",
       balance: 3000,
@@ -36,7 +36,7 @@ describe("session-store", () => {
       user: {
         id: "1",
         name: "Claudio",
-        document: "094.198.819-89",
+        document: "234.120.130-05",
       },
       token: "mock-token",
       balance: 3000,
