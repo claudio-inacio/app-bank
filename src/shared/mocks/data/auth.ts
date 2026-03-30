@@ -1,11 +1,11 @@
 export const mockUser = {
     id: "1",
-    name: "Claudio",
+    name: "Usuário Padrão",
     document: "234.120.130-05"
 };
 
 export const mockCredential ={
-    name: "Claudio",
+    name: "Usuário Padrão",
     document: "234.120.130-05",
     password: "123123"
 };

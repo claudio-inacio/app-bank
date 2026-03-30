@@ -2,11 +2,13 @@ import { Input } from "@/shared/components/ui/input"
 import { Search } from "lucide-react"
 
 type FilterTransactionsProps = {
-    handleFilter: (value: string) => void
+    handleFilter: (value: string) => void;
+    disabled: boolean;
 }
 
 export function FilterTransactions({
     handleFilter,
+    disabled,
 }: FilterTransactionsProps) {
     return (
         <div className="flex justify-end">
@@ -17,6 +19,7 @@ export function FilterTransactions({
                     placeholder="Buscar transações"
                     className="pl-10"
                     aria-label="Buscar transações"
+                    disabled={disabled}
                 />
             </div>
         </div>

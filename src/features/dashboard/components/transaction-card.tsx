@@ -15,6 +15,7 @@ type TransactionsCardProps = {
 export function TransactionsCard({
     transactions,
 }: TransactionsCardProps) {
+    console.log({transactions})
     return (
         <Card className="border-border/60 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between">
