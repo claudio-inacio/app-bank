@@ -7,7 +7,7 @@ describe("login api", () => {
             document: "234.120.130-05",
             password: "123123",
         });
-        expect(response.user.name).toBe("Claudio");
+        expect(response.user.name).toBe("Usuário Padrão");
         expect(response.token).toBe("dmSlUHP0qPXQZKPudGmZjT7rdYYjOMFvyz8T6PXLmw5jitpx6kKumoM6WKzAbaTC");
         expect(response.balance).toBe(3000);
     });

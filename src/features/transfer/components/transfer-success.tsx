@@ -25,12 +25,12 @@ export function TransferSuccess({
             </div>
 
             <div className="mt-4 flex w-full flex-col gap-2 sm:flex-row">
-                <Button className="flex-1" onClick={onNewTransfer}>
+                <Button variant='alert' className="flex-1 cursor-pointer" onClick={onNewTransfer}>
                     <RotateCcw className="mr-2 h-4 w-4" />
                     Nova transferência
                 </Button>
 
-                <Button variant="error" className="flex-1" onClick={onClose}>
+                <Button variant="outline" className="flex-1 cursor-pointer" onClick={onClose}>
                     Fechar
                 </Button>
             </div>

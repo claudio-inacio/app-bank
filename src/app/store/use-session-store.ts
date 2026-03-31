@@ -1,3 +1,4 @@
+import { type MockTransaction } from "@/shared/mocks/data/transactions";
 import type { SessionState } from "@/shared/types/session.types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
@@ -13,6 +14,7 @@ export const useSessionStore = create<SessionState>()(
             token: null,
             isAuthenticated: false,
             balance: INITIAL_BALANCE,
+            transactionsList: null,
             isHydrated: false,
 
             login: ({ user, token, balance = INITIAL_BALANCE }) => set({
@@ -25,6 +27,7 @@ export const useSessionStore = create<SessionState>()(
                 user: null,
                 token: null,
                 isAuthenticated: false,
+                transactionsList: null,
                 balance: 0,
             }),
             setBalance: (banlanceValue) => set({
@@ -33,7 +36,9 @@ export const useSessionStore = create<SessionState>()(
             decrementBalance: (value) => set((state) => ({
                 balance: Math.max(0, state.balance - value),
             })),
-
+            setNewTransferList: (newTransactionsList: MockTransaction[]) => set({
+                transactionsList: newTransactionsList,
+            }),
             setIsHydrated: (value) => set({
                 isHydrated: value,
             }),
@@ -46,6 +51,7 @@ export const useSessionStore = create<SessionState>()(
                 token: state.token,
                 isAuthenticated: state.isAuthenticated,
                 balance: state.balance,
+                transactionsList: state.transactionsList,
             }),
             onRehydrateStorage: () => (state) => {
                 if (state) {

@@ -1,11 +1,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Lock, ShieldUser } from "lucide-react"
+import { Lock, ShieldUser, Eye, EyeOff } from "lucide-react"
 import { Controller, useForm } from "react-hook-form"
 import { Input } from "@/shared/components/ui/input"
 import { loginSchema, type LoginFormValues } from "../schemas/login.schema"
 import { LoginSubmitButton } from "./login-submit-button"
 import StringMasks from "@/shared/utils/StringMasks"
+import { useState } from "react"
+
 
 
 
@@ -21,12 +23,13 @@ export function LoginForm({
     isLoading,
     isSuccess,
 }: LoginFormProps) {
+    const [visualizePassword, setVisualizePassword] = useState(false);
 
 
     const {
         register,
         handleSubmit,
-        control,        
+        control,
         formState: { errors, isValid },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -97,7 +100,7 @@ export function LoginForm({
                     <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         id="password"
-                        type="password"
+                        type={visualizePassword ? "text" : "password"}
                         placeholder="Digite sua senha"
                         autoComplete="current-password"
                         className="pl-10"
@@ -106,6 +109,16 @@ export function LoginForm({
                         aria-invalid={!!errors.password}
                         {...register("password")}
                     />
+                    {visualizePassword ? (
+                        <Eye className="cursor-pointer absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                            onClick={() => setVisualizePassword(false)}
+                        />
+                    ) : (
+                        <EyeOff className="cursor-pointer absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                            onClick={() => setVisualizePassword(true)}
+                        />
+                    )}
+
                 </div>
 
                 {errors.password ? (

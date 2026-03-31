@@ -9,7 +9,7 @@ export function getTransactionsDb(){
     return transactionsDb
 }
 
-export function addTransaction(transaction: MockTransaction) {
+export function addTransaction(transaction: MockTransaction) {   
     transactionsDb.unshift(transaction);
 }
 

@@ -16,7 +16,7 @@ describe("session-store", () => {
     useSessionStore.getState().login({
       user: {
         id: "1",
-        name: "Claudio",
+        name: "Usuário Padrão",
         document: "234.120.130-05",
       },
       token: "mock-token",
@@ -26,7 +26,7 @@ describe("session-store", () => {
     const state = useSessionStore.getState();
 
     expect(state.isAuthenticated).toBe(true);
-    expect(state.user?.name).toBe("Claudio");
+    expect(state.user?.name).toBe("Usuário Padrão");
     expect(state.token).toBe("mock-token");
     expect(state.balance).toBe(3000);
   });
@@ -35,11 +35,11 @@ describe("session-store", () => {
     useSessionStore.getState().login({
       user: {
         id: "1",
-        name: "Claudio",
+        name: "Usuário Padrão",
         document: "234.120.130-05",
       },
       token: "mock-token",
-      balance: 3000,
+      balance: 3000 ,
     });
 
     useSessionStore.getState().logout();

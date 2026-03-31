@@ -12,3 +12,6 @@ export function useUser() {
 export function useUserBalance() {
     return useSessionStore((state) => state.balance);
 }
+export function useTransactionsList() {
+    return useSessionStore((state) => state.transactionsList);
+}

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Loader2, ShieldUser, Wallet } from "lucide-react";
+import { Loader2, ShieldUser, Wallet, DollarSign } from "lucide-react";
 
 
 import {
@@ -9,49 +9,41 @@ import {
 } from "../schemas/transfer-form.schema";
 
 import { useSessionStore } from "@/app/store/use-session-store";
-import { useTransfer } from "../hooks/useTransfer";
 import type { CreateTransferResponse } from "../api/create-transfer";
 import StringMasks from "@/shared/utils/StringMasks";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
+import { currencyToBRL, parseCurrencyBRL } from "@/shared/utils";
 
 
 interface TransferFormProps {
     onSuccess?: () => void;
-    // handleFormSubmit: (values: TransferFormValues) => Promise<CreateTransferResponse>;
-    handleFormSubmit: () => void;
-    isLoading: boolean;
+    handleFormSubmit: (values: TransferFormValues) => Promise<CreateTransferResponse>;
+    isPending: boolean;
 }
 
-export function TransferForm({ onSuccess, handleFormSubmit, isLoading }: TransferFormProps) {
+export function TransferForm({  handleFormSubmit, isPending }: TransferFormProps) {
     const userData = useSessionStore((state) => state);
-    const { mutateAsync, isPending } = useTransfer();
 
     const {
-        register,
         handleSubmit,
         control,
+        watch,
         formState: { errors, isValid },
     } = useForm<TransferFormValues>({
         resolver: zodResolver(transferFormSchema),
         defaultValues: {
             recipientDocument: "",
-            amount: 0,
+            amount: '',
             description: "",
         },
     });
 
-    // async function handleTeste(values: TransferFormValues) {
-    //     await mutateAsync({
-    //         recipient: values.recipientDocument,
-    //         bank: "Bank App",
-    //         amount: values.amount,
-    //         description: values.description,
-    //     });
-
-    //     onSuccess();
-    // }
-
+    const transferenceValueIsPossible = (amount: string): boolean => {
+        const balance = parseCurrencyBRL(userData?.balance.toString() ?? 0)
+        const numericAmount = parseCurrencyBRL(amount)
+        return numericAmount <= balance
+    }
     return (
         <div className="space-y-6">
             <div className="rounded-2xl border bg-muted/30 p-4">
@@ -61,10 +53,7 @@ export function TransferForm({ onSuccess, handleFormSubmit, isLoading }: Transfe
                 </div>
 
                 <p className="mt-2 text-2xl font-semibold">
-                    {userData.balance.toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                    })}
+                    {currencyToBRL(userData?.balance || 0)}
                 </p>
             </div>
 
@@ -75,10 +64,10 @@ export function TransferForm({ onSuccess, handleFormSubmit, isLoading }: Transfe
             >
                 <div className="space-y-2">
                     <label
-                        htmlFor="document"
+                        htmlFor="recipientDocument"
                         className="text-sm font-medium text-foreground"
                     >
-                        CPF
+                        CPF Destinatário
                     </label>
 
                     <div className="relative">
@@ -88,13 +77,13 @@ export function TransferForm({ onSuccess, handleFormSubmit, isLoading }: Transfe
                             control={control}
                             render={({ field }) => (
                                 <Input
-                                    id="document"
+                                    id="recipientDocument"
                                     type="text"
                                     placeholder="000.000.000-00"
                                     autoComplete="document"
                                     className="pl-10"
                                     maxLength={11}
-                                    disabled={isLoading}
+                                    disabled={isPending}
                                     aria-invalid={!!errors.recipientDocument}
                                     value={field.value || ''}
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,51 +100,88 @@ export function TransferForm({ onSuccess, handleFormSubmit, isLoading }: Transfe
                         </p>
                     ) : null}
                 </div>
-                {/* 
-                <FormField
-                    control={form.control}
-                    name="amount"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Valor da transferência</FormLabel>
-                            <FormControl>
+
+                <div className="space-y-2">
+                    <label
+                        htmlFor="amount"
+                        className="text-sm font-medium text-foreground"
+                    >
+                        Valor
+                    </label>
+
+                    <div className="relative">
+                        <DollarSign className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Controller
+                            name="amount"
+                            control={control}
+                            render={({ field }) => (
                                 <Input
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    placeholder="0,00"
+                                    id="amount"
+                                    type="text"
+                                    placeholder="informe o valor"
+                                    autoComplete="amount"
+                                    className="pl-10"
                                     disabled={isPending}
-                                    value={field.value || ""}
-                                    onChange={(event) =>
-                                        field.onChange(Number(event.target.value))
-                                    }
+                                    aria-invalid={!!errors.amount}
+                                    value={field.value || ''}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        const formatted = StringMasks.moneyMask(e.target.value);
+                                        field.onChange(formatted);
+                                    }}
                                 />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                            )}
+                        />
 
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Descrição</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder="Ex: Pagamento de serviço"
-                                    className="min-h-[100px]"
-                                    disabled={isPending}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                /> */}
+                    </div>
 
-                <Button type="submit" className="w-full" disabled={isPending || !isValid}>
+                    {errors.amount || !transferenceValueIsPossible(StringMasks.moneyMask(watch("amount"))) ? (
+                        <p className="text-sm font-medium text-red-600">
+                            {errors?.amount?.message || "Saldo insuficiente para esta transferência"}
+                        </p>
+                    ) : null}
+                </div>
+                <div className="space-y-2">
+                    <label
+                        htmlFor="description"
+                        className="text-sm font-medium text-foreground"
+                    >
+                        Descrição
+                    </label>
+
+
+
+                    <Controller
+                        name="description"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                id="description"
+                                type="text"
+                                placeholder="informe a descrição"
+                                autoComplete="description"
+                                className="pl-10"
+                                disabled={isPending}
+                                aria-invalid={!!errors.description}
+                                value={field.value || ''}
+
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                                    field.onChange(e.target.value);
+                                }}
+                            />
+                        )}
+                    />
+
+
+
+                    {errors.description ? (
+                        <p className="text-sm font-medium text-red-600">
+                            {errors.description.message}
+                        </p>
+                    ) : null}
+                </div>
+
+                <Button variant="success" type="submit" className="w-full py-6 cursor-pointer" disabled={isPending || !isValid || !transferenceValueIsPossible(StringMasks.moneyMask(watch("amount")))}>
                     {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

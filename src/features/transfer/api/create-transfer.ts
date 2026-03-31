@@ -2,8 +2,7 @@ import { api } from "@/shared/lib/axios";
 import type { MockTransaction } from "@/shared/mocks/data/transactions";
 
 export interface CreateTransferPayload {
-  recipient: string;
-  bank: string;
+  recipientDocument: string;
   amount: number;
   description?: string;
 }
@@ -14,6 +13,6 @@ export interface CreateTransferResponse {
 }
 
 export async function createTransfer(payload: CreateTransferPayload) {
-  const { data } = await api.post<CreateTransferResponse>("/transfers", payload);
+  const { data } = await api.post<CreateTransferResponse>("/transfer", payload);
   return data;
 }

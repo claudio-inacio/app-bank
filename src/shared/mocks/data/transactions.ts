@@ -10,7 +10,6 @@ export interface MockTransaction {
     description: string;
     amount: number;
     createdAt: string;
-
     recipientDocument: string;
 }
 
@@ -47,7 +46,7 @@ export const mockTransactions: MockTransaction[] = [
     //     id: "3",
     //     type: "income",
     //     description: "Salário",
-    //     amount: 3000.00,
+    //     amount: 3000,
     //     createdAt: "2023-10-03",
     //     bank: "Banco ITAU",
     //     recipientDocument: "234.120.130-05"
