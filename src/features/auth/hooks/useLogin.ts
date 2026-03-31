@@ -20,8 +20,7 @@ export function useLogin() {
 
             navigate("/", { replace: true });
         },
-        onError: (e) => {
-            console.log({e})
+        onError: (e) => {            
             toast.error("Usuário ou senha inválidos", {
                 position: "top-center"
             })
