@@ -1,1 +1,1 @@
-export const getApiBaseUrl = () => 'http://localhost:3333/api';
+export const getApiBaseUrl = () => import.meta.env.VITE_API_BASE_URL;

@@ -18,6 +18,7 @@ export function useTransfer() {
             });
             decrementBalance(data.transaction.amount);
             const currenList = listTransactions ?? mockTransactions;
+            console.log({data})
             setNewTransferList([data.transaction, ...currenList]);
 
             return data;

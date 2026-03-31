@@ -8,9 +8,10 @@ import type { MockTransaction } from "./data/transactions";
 
 // IMPORTANTE: o uso do msw permite criar os handlers que vão simular as nossas requisições da api, durante o uso da aplicação.
 
+const API_BASE_URL = getApiBaseUrl();
 
 export const handlers = [
-    http.post(`${getApiBaseUrl()}/login`, async ({ request }) => {
+    http.post(`${API_BASE_URL}/login`, async ({ request }) => {
         const body = (await request.json()) as { document: string, password: string };
 
         await delay(3000);
@@ -22,12 +23,12 @@ export const handlers = [
         return HttpResponse.json<ApiErrorResponse>({ message: "Usuário ou senha Inválidos" }, { status: 401 });
     }),
 
-    http.get(`${getApiBaseUrl()}/transactions`, async () => {
+    http.get(`${API_BASE_URL}/transactions`, async () => {
         await delay(3000);
         return HttpResponse.json(getTransactionsDb(), { status: 200 });
     }),
 
-    http.post(`${getApiBaseUrl()}/transfer`, async ({ request }) => {
+    http.post(`${API_BASE_URL}/transfer`, async ({ request }) => {
         await delay(3000);
         const body = (await request.json()) as { recipientDocument: string, amount: number, description?: string };
 
