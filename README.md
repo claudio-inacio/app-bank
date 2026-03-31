@@ -35,7 +35,7 @@ npm run dev
 
 
 Como funciona (arquitetura)
-Arquitetura inicial baseada de Feature-Drive, acredito ser uma arquitetura limpa, facil de escalar futuramente alem de nos permitir desenvolver codigos com menos acoplamento
+Arquitetura inicial baseada de Feature-Driven, acredito ser uma arquitetura limpa, facil de escalar futuramente, alem de nos permitir desenvolver codigos com menos acoplamento
 
 A aplicação utiliza:
 
@@ -80,8 +80,28 @@ ViTest -> Utilizado como base de testes, podendo testar logicas, componentes e a
 
 
     // VAZAMENTOS DE DADOS
+    - Umas das principais maneiras de evitarmos o vazamento de dados é garantir que todas nossas requisições sejam HTTPS, nos proporciona maior segurança e impede contra interceptação.
+
+    - Remover dados sensiveis do nosso localStorage e cacheLocal como Zustand ou Redux, (remover tokens, senhas entre outros).
+    ex: ao realizar login, salva apenas email e nome ou documento e nome
+
+    - Garantir que não tenhamos consoles com informações desnecessarias
+
+    - Atuar continuamente com tokens expiraveis e limpar nosso cache ao realizar logout
+
+    Obs: em uma pesquisa que realizei, encontrei tambem uma boa pratica que são os Headers, tais como :
+        Content-Security-Policy, X-Frame-Options, entre outros...
+        Alguns headers nos permitem ter um controle pré determinado sobre os recursos que os navegadores podem carragar para nossa aplicação, ou até mesmo garantir que recursos só sejam disponibilizados caso estejam em nosso dominio.
+        Com os Headers tambem podemos utilizar outras garantias de segurança que eles nos proporcionam.
 
 
     // ENGENHARIA REVERSA
+ - No desenvolvimento de aplicativos para web creio não ser possivel garantir que nosso sistema esteja 100% protegido contra engenharia reversa, porem existem algumas decisões e melhorias que podemos tomar para dificultar esse processso.
 
-    // ADICIONAR UM MODAL NA TELA DE LOGIN EXIBINDO O USUARIO E SENHA PADRÃO
+    - Evitar ao maximo confiar em nosso front-End para realizar validações que afetam os dados do usuario... nessa aplicação eu fiz uma validação onde comparo se o valor de transferencia digitado é maior que o saldo atual, porem isso foi feito apenas para fins de teste, todas as nossas validações principalmente as que necessitam de comparações com dados internos devem ser realizadas e garantidas pelo nosso backend
+
+    - Evitar expor dados sensiveis, como TOKENS, SECRET_KEYS ou qualquer outra coisa desse segmento, essas informações ficam expostas em nosso bundle que é gerado durante o build.
+
+    - Evitar codigos descessarios e garantir que nossa aplicação não tenha console.log espalhados, tambem são boas praticas que ajudam a evitar.
+
+    - Por fim o back-end deve ser responsavel por todas nossas ações mais criteriosas, limitar requisições, validar payload das req, rotas autenticadas e com validação de token com curta expiração e um dos mais principais seria o armazenamento dos cookies.
