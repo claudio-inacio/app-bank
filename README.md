@@ -1,3 +1,7 @@
+📊 Plataforma de TRANSFERENCIAS
+
+Aplicação web desenvolvida  React + TypeScript + router dom + TailwindCSS dentre outras ferramentas obrigatorias descritas na solicitação.
+
 // INICIAL
 - DADOS DE LOGIN: 
   - DOCUMENT: 23412013005
