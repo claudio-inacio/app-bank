@@ -7,5 +7,9 @@ const USE_FAKE_API = import.meta.env.VITE_USE_FAKE_API === "true";
 export async function login(
     payload: LoginPayload
 ): Promise<LoginResponse> {
-    return USE_FAKE_API ? fakeLogin(payload) : realLogin(payload);
+
+    if (USE_FAKE_API) {
+        return fakeLogin(payload);
+    }
+    return realLogin(payload);
 }
