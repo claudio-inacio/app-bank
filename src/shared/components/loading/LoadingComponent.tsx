@@ -1,32 +1,23 @@
-
-
 interface LoadingProps {
-    title: string;
-    messageLoading: string;
+  title: string;
+  messageLoading: string;
 }
 
-
 const LoadingComponent = ({ title, messageLoading }: LoadingProps) => {
-    return (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-6 py-20">
-            <div className="relative flex items-center justify-center">
-                <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin border-t-primary"></div>
+  return (
+    <div className="flex min-h-[300px] w-full flex-col items-center justify-center gap-6 py-20">
+      <div className="relative flex items-center justify-center">
+        <div className="h-16 w-16 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin" />
 
-                <div className="absolute w-10 h-10 border-4 border-blue-100 rounded-full animate-spin border-b-primary"></div>
+        <div className="absolute h-10 w-10 rounded-full border-4 border-slate-100 border-b-cyan-500 [animation:spin_1.2s_linear_infinite_reverse]" />
+      </div>
 
-            </div>
-            <div className="flex flex-col items-center">
-                <span className="text-gray-700 font-semibold text-lg">
-                    {title}
-                </span>
-
-                <span className="text-gray-400 text-sm">
-                    {messageLoading}
-                </span>
-            </div>
-
-        </div>
-    );
+      <div className="flex flex-col items-center">
+        <span className="text-lg font-semibold text-gray-700">{title}</span>
+        <span className="text-sm text-gray-400">{messageLoading}</span>
+      </div>
+    </div>
+  );
 };
 
 export default LoadingComponent;

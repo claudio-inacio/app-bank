@@ -5,11 +5,6 @@ import LoginPage from "@/features/auth/pages";
 import { DashboardPage } from "@/features/dashboard/pages";
 
 
-// import { DashboardPage } from "@/features/dashboard/pages/DashboardPage";
-// import { TransferPage } from "@/features/transfer/pages/TransferPage";
-
-
-
 export const router = createBrowserRouter([
   //PUBLCI ROUTE
   {
@@ -35,10 +30,6 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: <DashboardPage />,
       },
-      //   {
-      //     path: "transfer",
-      //     element: <TransferPage />,
-      //   },
     ],
   },
 ]);
