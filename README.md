@@ -10,8 +10,14 @@ Histórico de transações
 A aplicação funciona sem backend real, utilizando uma camada de Fake API para simular requisições e estado.
 
 Credenciais para teste
+
+Link de Acesso do Projeto:
+https://app-bank-nine.vercel.app/
+
 CPF: 23412013005
 Senha: 123456
+
+
 
 Rodando com Docker (opcional)
 1. Build da imagem
