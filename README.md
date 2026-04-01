@@ -22,19 +22,31 @@ Senha:
 
 
 
+Rodando Local
+1. Baixar o projeto
+git clone https://github.com/claudio-inacio/app-bank.git
+2. Navegar até a pasta
+cd app-bank
+3. Instalar dependencias
+npm install
+4. Executar projeto desenvolvimento
+npm run dev
+
 Rodando com Docker (opcional)
-1. Build da imagem
+1. Baixar o projeto
+git clone https://github.com/claudio-inacio/app-bank.git
+2. Navegar até a pasta
+cd app-bank
+3. Instalar dependencias
+npm install
+4. Build da imagem
 docker build -t app-bank .
-2. Subir o container
+5. Subir o container
 docker run -d -p 8080:80 --name app-bank-container app-bank
-3. Acessar Navegador
+6. Acessar Navegador
 http://localhost:8080
 
-Rodando Local
-1. Baixar pacotes
-npm install
-2. Executar projeto desenvolvimento
-npm run dev
+
 
 Testes
 1. Garantindo mock de testes (IMPORTANTE)
