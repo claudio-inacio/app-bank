@@ -27,7 +27,7 @@ export async function fakeCreateTransfer(
   }
 
   const transaction: MockTransaction = {
-    id: generateId.toString(),
+    id: generateId().toString(),
     description: payload.description || "Transferência enviada",
     amount: payload.amount,
     createdAt: new Date().toISOString(),

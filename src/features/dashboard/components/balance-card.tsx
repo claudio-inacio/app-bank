@@ -42,14 +42,14 @@ type BalanceCardProps = {
 
 export function BalanceCard({
     amount,
-    // income = 10800,
-    // expense = 2450.65,
     handleControlModalTransfer,
     className,
 }: BalanceCardProps) {
+    const balanceIsNegative = Number(amount ?? 0) <= 0;
+
     return (
         <Card className={cn(balanceCardVariants(), className)}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardHeader className="flex flex-row items-center  justify-between space-y-0">
                 <div>
                     <p className="text-sm text-zinc-300 flex items-center gap-2">
                         Saldo disponível {<Wallet className="h-4 w-4" />}
@@ -58,7 +58,14 @@ export function BalanceCard({
                         {currencyToBRL(amount)}
                     </CardTitle>
                 </div>
-                <Button onClick={handleControlModalTransfer} className="cursor-pointer py-6 rounded-lg" variant="success">Nova Transferencia</Button>
+                <Button
+                    onClick={balanceIsNegative ? () => { } : handleControlModalTransfer}
+                    className={`${balanceIsNegative ? 'cursor-default' : 'cursor-pointer'}  cursor-pointer py-6 rounded-lg`}
+                    variant={balanceIsNegative ? "alert" : "success"}
+                    disabled={balanceIsNegative}
+                >
+                    {balanceIsNegative ? 'Saldo Zerado' : 'Nova Transferencia'}
+                </Button>
 
             </CardHeader>
 
@@ -66,6 +73,6 @@ export function BalanceCard({
                 <BalanceType typeBalanceName="Entradas" typeBalanceValue={income} typeBalanceIcon={<ArrowUpRight className="h-4 w-4" />} />
                 <BalanceType typeBalanceName="Saídas" typeBalanceValue={expense} typeBalanceIcon={<ArrowDownRight className="h-4 w-4" />} />
             </CardContent> */}
-        </Card>
+        </Card >
     )
 }

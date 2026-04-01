@@ -9,10 +9,10 @@ export async function fakeGetTransactions(): Promise<MockTransaction[]> {
     return [
         {
             id: 'id-1',
-            description: "Pix recebido",
+            description: "Aluguel",
             amount: 500,
             createdAt: new Date().toISOString(),
-            type: "income",
+            type: "transfer",
             recipientDocument: '198.898.98-89'
         },
         {

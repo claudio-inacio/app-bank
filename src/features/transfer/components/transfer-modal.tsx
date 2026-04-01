@@ -60,7 +60,7 @@ export function TransferModal({
     }
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={!isPending ? onOpenChange : undefined}>
             <DialogContent className="sm:max-w-[620px] sm:h-[600px] bg-white rounded-2xl p-10">
                 {step === "form" ? (
                     <>

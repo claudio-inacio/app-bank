@@ -33,16 +33,14 @@ export function LoginForm({
             document: "",
             password: "",
         },
-        mode: "onSubmit",
+        mode: "onChange",
     })
-
     return (
         <form
             onSubmit={handleSubmit(handleFunction)}
             className="space-y-5"
             noValidate
         >
-
             <InputText
                 autoComplete="document"
                 control={control}
@@ -55,7 +53,7 @@ export function LoginForm({
                 icon={ShieldUser}
                 formatValueMask={StringMasks.formataCPF}
                 maxLength={14}
-                minLength={16}
+                minLength={14}
             />
             <InputPassword
                 control={control}

@@ -27,29 +27,27 @@ export const mockTransactionResponse = {
 
 export const mockTransactions: MockTransaction[] = [
     {
-        id: "1",
-        type: "expense",
-        description: "Compra de mercadorias",
-        amount: 150.00,
-        createdAt: "2025-10-01",
-        recipientDocument: "234.120.130-05"
+        id: 'id-1',
+        description: "Aluguel",
+        amount: 500,
+        createdAt: new Date().toISOString(),
+        type: "transfer",
+        recipientDocument: '198.898.98-89'
     },
     {
-        id: "2",
+        id: 'id-2',
+        description: "Transferência enviada",
+        amount: 700,
+        createdAt: new Date().toISOString(),
         type: "transfer",
-        description: "Transferência para João",
-        amount: 200.00,
-        createdAt: "2025-10-02",
-        recipientDocument: "567.890.123-45"
+        recipientDocument: '068.898.198-71'
     },
-    // {
-    //     id: "3",
-    //     type: "income",
-    //     description: "Salário",
-    //     amount: 3000,
-    //     createdAt: "2023-10-03",
-    //     bank: "Banco ITAU",
-    //     recipientDocument: "234.120.130-05"
-    // }
-
+    {
+        id: 'id-3',
+        description: "Pagamento de boleto",
+        amount: 300,
+        createdAt: new Date().toISOString(),
+        type: "transfer",
+        recipientDocument: '198.234.222-00'
+    },
 ]

@@ -107,7 +107,7 @@ const InputText = <T extends FieldValues>({
                             <Input
                                 {...field}
                                 {...commonInputProps}
-                                value={field.value ?? ""}
+                                value={field.value}
                                 onChange={(e) => {
                                     let formatted: string | undefined | null = e.target.value;
                                     if (formatValueMask) {
