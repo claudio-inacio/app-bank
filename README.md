@@ -42,6 +42,8 @@ Va até o arquivo .env e altere a propriedade VITE_USE_FAKE_API para false
 2. Executando testes
 execute o comando "npm run test" dentro do arquivo de teste desejado
 
+3.PARA RESETAR O SALDO, BASTA SAIR DA APLICAÇÃO OU LIMPAR O LOCAL STORAGE
+
 
 Como funciona (arquitetura)
 Arquitetura inicial baseada de Feature-Driven, acredito ser uma arquitetura limpa, facil de escalar futuramente, alem de nos permitir desenvolver codigos com menos acoplamento
