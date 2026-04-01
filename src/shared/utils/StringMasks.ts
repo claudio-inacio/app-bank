@@ -28,7 +28,7 @@ const StringMasks = {
         return `${primeiraParte},${decimalParte}`;
     },
 
-    moneyMask: (valor: string | number) => {
+    moneyMask(valor: string | number): string {
         if (!valor) return "";
 
         valor = valor.toString().replace(/[^\d]/g, "");
@@ -50,6 +50,7 @@ const StringMasks = {
         }
         return valor.replace(/(\d{3})(\d{3})(\d{2})/, "$1.$2,$3");
     },
+    
     cpfIsValid(strCPF?: string): boolean {
         if (!strCPF) return false;
 

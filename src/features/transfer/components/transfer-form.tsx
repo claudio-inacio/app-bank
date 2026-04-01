@@ -105,7 +105,7 @@ export function TransferForm({ handleFormSubmit, isPending }: TransferFormProps)
                             Transferindo...
                         </>
                     ) : (
-                        currentBalance <= 0 ? 'Saldo Zerado': "Nova Transferencia"
+                        currentBalance <= 0 ? 'Saldo Zerado': "Realizar Transferência"
                     )}
                 </Button>
             </form>

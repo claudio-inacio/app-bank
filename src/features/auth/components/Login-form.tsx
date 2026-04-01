@@ -58,7 +58,6 @@ export function LoginForm({
             <InputPassword
                 control={control}
                 name="password"
-                id="password"
                 label="Senha"
                 placeholder="Digite sua senha"
                 error={errors.password}

@@ -14,7 +14,6 @@ import { cn } from "@/shared/lib/utils";
 interface InputPasswordProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  id: string;
   label: string;
   placeholder: string;
   error?: FieldError;
@@ -34,7 +33,6 @@ interface InputPasswordProps<T extends FieldValues> {
 const InputPassword = <T extends FieldValues>({
   control,
   name,
-  id,
   label,
   placeholder,
   error,
@@ -59,7 +57,7 @@ const InputPassword = <T extends FieldValues>({
   return (
     <div className={cn("space-y-2", containerClassName)}>
       <label
-        htmlFor={id}
+        htmlFor="password"
         className={cn("text-sm font-medium text-foreground", labelClassName)}
       >
         {label}
@@ -78,17 +76,17 @@ const InputPassword = <T extends FieldValues>({
           name={name}
           render={({ field }) => (
             <Input
-              {...field}
-              id={id}
-              type={showPassword ? "text" : "password"}
-              placeholder={placeholder}
-              autoComplete={autoComplete}
-              className={cn("pl-10 pr-10", inputClassName)}
-              maxLength={maxLength}
-              minLength={minLength}
-              disabled={isLoading || disabled}
-              aria-invalid={!!error}
-              value={field.value ?? ""}
+            id="password"
+            {...field}
+            type={showPassword ? "text" : "password"}
+            placeholder={placeholder}
+            autoComplete={autoComplete}
+            className={cn("pl-10 pr-10", inputClassName)}
+            maxLength={maxLength}
+            minLength={minLength}
+            disabled={isLoading || disabled}
+            aria-invalid={!!error}
+            value={field.value ?? ""}
             />
           )}
         />

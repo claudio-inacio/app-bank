@@ -1,52 +1,52 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import { createTransferFormSchema } from "../schemas/transfer-form.schema";
+
+const cpfIsValidMock = vi.fn();
 
 vi.mock("@/shared/utils/StringMasks", () => ({
     default: {
         moneyMask: (value: string) => value,
+        cpfIsValid: (value: string) => cpfIsValidMock(value),
     },
 }));
 
-import { transferFormSchema } from "../schemas/transfer-form.schema";
+describe("createTransferFormSchema", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
 
-describe("transferFormSchema", () => {
-    it("validar com sucesso um payload válido", () => {
-        const result = transferFormSchema.safeParse({
+    it("deve validar com sucesso um payload válido quando houver saldo suficiente", () => {
+        cpfIsValidMock.mockReturnValue(true);
+
+        const result = createTransferFormSchema(200).safeParse({
             recipientDocument: "123.456.789-01",
             amount: "150,00",
             description: "Pagamento de serviço",
         });
 
         expect(result.success).toBe(true);
+        expect(cpfIsValidMock).toHaveBeenCalledWith("123.456.789-01");
     });
 
-    it("falhar quando o documento tiver menos de 11 caracteres", () => {
-        const result = transferFormSchema.safeParse({
-            recipientDocument: "1234567890",
+    it("deve falhar quando o CPF for inválido", () => {
+        cpfIsValidMock.mockReturnValue(false);
+
+        const result = createTransferFormSchema(200).safeParse({
+            recipientDocument: "123.456.789-01",
             amount: "150,00",
             description: "Pagamento de serviço",
         });
 
         expect(result.success).toBe(false);
         expect(result.error?.flatten().fieldErrors.recipientDocument).toContain(
-            "O documento do recebedor deve ter ao menos 11 caracteres"
-        );
-    });
-
-    it("deve falhar quando o documento for maior que 18 caracteres", () => {
-        const result = transferFormSchema.safeParse({
-            recipientDocument: "123.456.789-01-999999",
-            amount: "150,00",
-            description: "Pagamento de serviço",
-        });
-
-        expect(result.success).toBe(false);
-        expect(result.error?.flatten().fieldErrors.recipientDocument).toContain(
-            "Documento inválido"
+            "Informe um CPF válido"
         );
     });
 
     it("deve falhar quando o valor for zero", () => {
-        const result = transferFormSchema.safeParse({
+        cpfIsValidMock.mockReturnValue(true);
+
+        const result = createTransferFormSchema(200).safeParse({
             recipientDocument: "123.456.789-01",
             amount: "0",
             description: "Pagamento de serviço",
@@ -58,8 +58,25 @@ describe("transferFormSchema", () => {
         );
     });
 
+    it("deve falhar quando houver saldo insuficiente", () => {
+        cpfIsValidMock.mockReturnValue(true);
+
+        const result = createTransferFormSchema(100).safeParse({
+            recipientDocument: "123.456.789-01",
+            amount: "150,00",
+            description: "Pagamento de serviço",
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.error?.flatten().fieldErrors.amount).toContain(
+            "Saldo insuficiente para realizar a transferência"
+        );
+    });
+
     it("deve falhar quando a descrição tiver menos de 3 caracteres", () => {
-        const result = transferFormSchema.safeParse({
+        cpfIsValidMock.mockReturnValue(true);
+
+        const result = createTransferFormSchema(200).safeParse({
             recipientDocument: "123.456.789-01",
             amount: "100,00",
             description: "ab",
@@ -71,4 +88,18 @@ describe("transferFormSchema", () => {
         );
     });
 
+    it("deve falhar quando o valor estiver vazio", () => {
+        cpfIsValidMock.mockReturnValue(true);
+
+        const result = createTransferFormSchema(200).safeParse({
+            recipientDocument: "123.456.789-01",
+            amount: "",
+            description: "Pagamento de serviço",
+        });
+
+        expect(result.success).toBe(false);
+        expect(result.error?.flatten().fieldErrors.amount).toContain(
+            "O valor é obrigatório"
+        );
+    });
 });

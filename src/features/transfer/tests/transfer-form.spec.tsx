@@ -43,6 +43,41 @@ vi.mock("@/shared/utils/StringMasks", () => ({
             )}-${digits.slice(9, 11)}`;
         },
         moneyMask: (value: string) => value,
+
+        cpfIsValid(strCPF?: string): boolean {
+            if (!strCPF) return false;
+
+            const cpf = strCPF.replace(/\D/g, '');
+
+            if (cpf.length !== 11) return false;
+
+
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+            let soma = 0;
+            let resto: number;
+
+            for (let i = 1; i <= 9; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+            soma = 0;
+            for (let i = 1; i <= 10; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+
+            if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+            return true;
+        }
     },
 }));
 
@@ -83,42 +118,10 @@ describe("TransferForm", () => {
         expect(screen.getByLabelText(/cpf destinatário/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/valor/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/descrição/i)).toBeInTheDocument();
+        
         expect(
             screen.getByRole("button", { name: /realizar transferência/i })
-        ).toBeInTheDocument();
-    });
-
-    it("deve exibir mensagens de validação ao enviar vazio", async () => {
-        render(
-            <TransferForm
-                handleFormSubmit={mockHandleFormSubmit}
-                isPending={false}
-            />
-        );
-
-        const form = screen
-            .getByRole("button", { name: /realizar transferência/i })
-            .closest("form");
-
-        expect(form).not.toBeNull();
-
-        fireEvent.submit(form!);
-
-        expect(
-            await screen.findByText(
-                "O documento do recebedor deve ter ao menos 11 caracteres"
-            )
-        ).toBeInTheDocument();
-
-        expect(
-            await screen.findByText("O valor é obrigatório")
-        ).toBeInTheDocument();
-
-        expect(
-            await screen.findByText("A descrição deve ter ao menos 3 caracteres")
-        ).toBeInTheDocument();
-
-        expect(mockHandleFormSubmit).not.toHaveBeenCalled();
+        ).toBeDisabled();
     });
 
     it("deve exibir saldo insuficiente quando o valor for maior que o saldo", async () => {
@@ -139,7 +142,7 @@ describe("TransferForm", () => {
         await user.type(screen.getByLabelText(/descrição/i), "Pagamento teste");
 
         expect(
-            screen.getByText("Saldo insuficiente para esta transferência")
+            screen.getByText("Saldo insuficiente para realizar a transferência")
         ).toBeInTheDocument();
 
         const submitButton = screen.getByRole("button", {
@@ -169,7 +172,7 @@ describe("TransferForm", () => {
 
         await user.type(
             screen.getByLabelText(/cpf destinatário/i),
-            "12345678901"
+            "094.198.819-89"
         );
         await user.type(screen.getByLabelText(/valor/i), "250,50");
         await user.type(screen.getByLabelText(/descrição/i), "Pagamento de teste");
