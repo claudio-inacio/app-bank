@@ -1,15 +1,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Lock, ShieldUser, Eye, EyeOff } from "lucide-react"
-import { Controller, useForm } from "react-hook-form"
-import { Input } from "@/shared/components/ui/input"
+import { ShieldUser } from "lucide-react"
+import { useForm } from "react-hook-form"
 import { loginSchema, type LoginFormValues } from "../schemas/login.schema"
 import { LoginSubmitButton } from "./login-submit-button"
 import StringMasks from "@/shared/utils/StringMasks"
-import { useState } from "react"
-
-
-
+import InputText from "@/shared/components/inputs/text-input"
+import InputPassword from "@/shared/components/inputs/password-input"
 
 type LoginFormProps = {
     isLoading: boolean;
@@ -23,11 +20,10 @@ export function LoginForm({
     isLoading,
     isSuccess,
 }: LoginFormProps) {
-    const [visualizePassword, setVisualizePassword] = useState(false);
+
 
 
     const {
-        register,
         handleSubmit,
         control,
         formState: { errors, isValid },
@@ -47,86 +43,30 @@ export function LoginForm({
             noValidate
         >
 
-
-            <div className="space-y-2">
-                <label
-                    htmlFor="document"
-                    className="text-sm font-medium text-foreground"
-                >
-                    CPF
-                </label>
-
-                <div className="relative">
-                    <ShieldUser className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
-                    <Controller
-                        name="document"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                id="document"
-                                type="text"
-                                placeholder="000.000.000-00"
-                                autoComplete="document"
-                                className="pl-10"
-                                maxLength={11}
-                                disabled={isLoading}
-                                aria-invalid={!!errors.document}
-                                value={field.value || ''}
-                                onChange={(e) => {
-                                    const formatted = StringMasks.formataCPF(e.target.value);
-                                    field.onChange(formatted);
-                                }}
-                            />
-                        )}
-                    />
-                </div>
-                {errors.document ? (
-                    <p className="text-sm font-medium text-destructive text-red-600">
-                        {errors.document.message}
-                    </p>
-                ) : null}
-            </div>
-
-            <div className="space-y-2">
-                <label
-                    htmlFor="password"
-                    className="text-sm font-medium text-foreground"
-                >
-                    Senha
-                </label>
-
-                <div className="relative">
-                    <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        id="password"
-                        type={visualizePassword ? "text" : "password"}
-                        placeholder="Digite sua senha"
-                        autoComplete="current-password"
-                        className="pl-10"
-                        maxLength={6}
-                        disabled={isLoading}
-                        aria-invalid={!!errors.password}
-                        {...register("password")}
-                    />
-                    {visualizePassword ? (
-                        <Eye className="cursor-pointer absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-                            onClick={() => setVisualizePassword(false)}
-                        />
-                    ) : (
-                        <EyeOff className="cursor-pointer absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-                            onClick={() => setVisualizePassword(true)}
-                        />
-                    )}
-
-                </div>
-
-                {errors.password ? (
-                    <p className="text-sm font-medium text-red-600">
-                        {errors.password.message}
-                    </p>
-                ) : null}
-            </div>
+            <InputText
+                autoComplete="document"
+                control={control}
+                error={errors.document}
+                id="document"
+                inputLabel="CPF"
+                isLoading={isLoading}
+                name="document"
+                placeholder="000.000.000-00"
+                icon={ShieldUser}
+                formatValueMask={StringMasks.formataCPF}
+                maxLength={14}
+                minLength={16}
+            />
+            <InputPassword
+                control={control}
+                name="password"
+                id="password"
+                label="Senha"
+                placeholder="Digite sua senha"
+                error={errors.password}
+                isLoading={isLoading}
+                maxLength={6}
+            />
 
             <LoginSubmitButton disabled={!isValid} isLoading={isLoading} />
 

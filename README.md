@@ -14,8 +14,11 @@ Credenciais para teste
 Link de Acesso do Projeto:
 https://app-bank-nine.vercel.app/
 
-CPF: 23412013005
-Senha: 123456
+Dados de Login
+CPF: 
+234.120.130-05
+Senha: 
+123456
 
 
 
