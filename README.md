@@ -36,6 +36,12 @@ npm install
 2. Executar projeto desenvolvimento
 npm run dev
 
+Testes
+1. Garantindo mock de testes (IMPORTANTE)
+Va até o arquivo .env e altere a propriedade VITE_USE_FAKE_API para false
+2. Executando testes
+execute o comando "npm run test" dentro do arquivo de teste desejado
+
 
 Como funciona (arquitetura)
 Arquitetura inicial baseada de Feature-Driven, acredito ser uma arquitetura limpa, facil de escalar futuramente, alem de nos permitir desenvolver codigos com menos acoplamento
